@@ -1,15 +1,15 @@
 const { sql } = require("../dbConnection");
 
-// Patikrinti ar vartotojas jau paliko atsiliepimą
+
 exports.findExistingReview = async (userId, procedureId) => {
   const result = await sql`
     SELECT * FROM reviews
     WHERE user_id = ${userId} AND procedure_id = ${procedureId}
   `;
-  return result[0]; // jei rado, grąžina review objektą
+  return result[0]; 
 };
 
-// Atnaujinti tūro vidutinį reitingą
+
 const updateProcedureRating = async (procedureId) => {
   await sql`
     UPDATE procedures
@@ -22,7 +22,7 @@ const updateProcedureRating = async (procedureId) => {
   `;
 };
 
-// Sukurti naują atsiliepimą ir atnaujinti tūro reitingą
+
 exports.createReviewModel = async (userId, procedureId, rating, comment) => {
   const result = await sql`
     INSERT INTO reviews (user_id, procedure_id, rating, comment)
@@ -30,7 +30,7 @@ exports.createReviewModel = async (userId, procedureId, rating, comment) => {
     RETURNING *;
   `;
 
-  // Po įterpimo atnaujinam tūro vidutinį reitingą
+
   await updateProcedureRating(procedureId);
 
   return result[0];
@@ -46,7 +46,7 @@ exports.getUserReviews = async (userId) => {
   return result;
 };
 
-// Gauti visus atsiliepimus konkrečiam turui
+
 exports.getReviewsByProcedureIdModel = async (procedureId) => {
   const result = await sql`
     SELECT 

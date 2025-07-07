@@ -8,7 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export default function RegistrationsList() {
   const [registrations, setRegistrations] = useState([]);
 
-  // Visi pasirinkti statusai (pagal registracijos ID)
+
   const [statusUpdates, setStatusUpdates] = useState({});
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function RegistrationsList() {
       });
       setRegistrations(response.data.data);
 
-      // Inicializuojam pasirinktus statusus pagal dabartinius
+ 
       const initialStatuses = {};
       response.data.data.forEach((r) => {
         initialStatuses[r.registration_id] = r.registration_status;
@@ -48,7 +48,7 @@ export default function RegistrationsList() {
         { status },
         { withCredentials: true }
       );
-      await fetchRegistrations(); // Atnaujinti po sėkmės
+      await fetchRegistrations();
     } catch (error) {
       console.error("Nepavyko atnaujinti statuso:", error);
     }
@@ -59,7 +59,7 @@ export default function RegistrationsList() {
       <Navigation />
       <AdminNavigation />
       <div className="max-w-6xl mx-auto mt-6">
-        {/* Header (matomas tik didesniems ekranams) */}
+
         <div className="hidden lg:grid grid-cols-6 font-semibold border-b pb-2 mb-2 text-gray-700">
           <div>Data</div>
           <div>Turas</div>
@@ -75,9 +75,9 @@ export default function RegistrationsList() {
               key={registration.registration_id}
               className="bg-white p-4 rounded shadow-sm hover:bg-gray-50 transition"
             >
-              {/* Mobilus arba desktop view */}
+
               <div className="grid grid-cols-1 lg:grid-cols-6 gap-2 items-center text-gray-800">
-                {/* Data */}
+
                 <div>
                   <span className="font-semibold lg:hidden">Data: </span>
                   {new Date(registration.registration_date).toLocaleDateString(
@@ -85,25 +85,25 @@ export default function RegistrationsList() {
                   )}
                 </div>
 
-                {/* Turo pavadinimas */}
+
                 <div>
                   <span className="font-semibold lg:hidden">Turas: </span>
                   {registration.procedure_title}
                 </div>
 
-                {/* El. paštas */}
+
                 <div>
                   <span className="font-semibold lg:hidden">El. paštas: </span>
                   {registration.user_email}
                 </div>
 
-                {/* Esamas statusas */}
+
                 <div>
                   <span className="font-semibold lg:hidden">Statusas: </span>
                   {registration.registration_status}
                 </div>
 
-                {/* Select naujam statusui */}
+
                 <div>
                   <span className="font-semibold lg:hidden">
                     Naujas statusas:{" "}
@@ -124,7 +124,7 @@ export default function RegistrationsList() {
                   </select>
                 </div>
 
-                {/* Mygtukas */}
+
                 <div>
                   <button
                     onClick={() => handleUpdate(registration.registration_id)}

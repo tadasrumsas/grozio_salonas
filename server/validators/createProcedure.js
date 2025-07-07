@@ -78,25 +78,23 @@ const validateCreateProcedure = [
     .isArray({ min: 1 })
     .withMessage("At least one date is required")
     .custom((dates) => {
-      // Tikrina, ar kiekviena data yra validi
+
       return dates.every((date) => {
-        // Patikrina, ar data atitinka formatą (pvz., "2025-06-01 10:00:00" arba ISO 8601)
+
         const isValidFormat =
-          /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(date) || // "YYYY-MM-DD HH:mm:ss"
-          /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?(\.\d{3}Z)?$/.test(date); // ISO 8601
+          /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(date) || 
+          /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?(\.\d{3}Z)?$/.test(date); 
         if (!isValidFormat) {
           throw new Error(
             'Visos datos turi būti validžios (pvz., "2025-06-01 10:00:00" arba "2025-06-01T10:00:00.000Z")'
           );
         }
 
-        // Patikrina, ar data yra validi (pvz., ne "2025-13-01")
         const parsedDate = new Date(date);
         if (isNaN(parsedDate.getTime())) {
           throw new Error(`Data "${date}" yra nevalidi`);
         }
 
-        // tikrina, ar data yra ateityje
         const now = new Date();
         if (parsedDate < now) {
           throw new Error(`Data "${date}" negali būti praeityje`);

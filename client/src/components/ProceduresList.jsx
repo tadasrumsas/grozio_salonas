@@ -62,7 +62,7 @@ export default function ProceduresList() {
     };
 
     fetchProcedures();
-    fetchBookmarks(); // ➕ Pridėta
+    fetchBookmarks(); 
   }, [search, category, sortOption, page, limit, user]);
 
   const handleBookmarkToggle = (procedureId, isBookmarked) => {
@@ -72,7 +72,6 @@ export default function ProceduresList() {
       return updated;
     });
 
-    // Atvaizdavimui išlaikyti ir seną būdą
     setProcedures((prevProcedures) =>
       prevProcedures.map((procedure) =>
         procedure.id === procedureId

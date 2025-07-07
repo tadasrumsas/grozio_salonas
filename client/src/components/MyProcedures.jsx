@@ -111,7 +111,6 @@ export default function MyProcedures() {
     }
   };
 
-  // Nauja funkcija atšaukimui
   const handleCancelRegistration = async (registrationId) => {
     if (!confirm("Ar tikrai norite atšaukti šią registraciją?")) return;
     try {
@@ -121,7 +120,7 @@ export default function MyProcedures() {
         { withCredentials: true }
       );
       alert("Registracija sėkmingai atšaukta.");
-      // Atnaujiname registracijas po atšaukimo
+
       const res = await axios.get(`${API_URL}/registrations/registrations`, {
         withCredentials: true,
       });
@@ -138,7 +137,7 @@ export default function MyProcedures() {
       pending: "bg-yellow-100 text-yellow-800 border-yellow-300",
       approved: "bg-blue-100 text-blue-800 border-blue-300",
       completed: "bg-green-100 text-green-800 border-green-300",
-      cancelled: "bg-red-100 text-red-800 border-red-300", // Pridėta cancelled būsena
+      cancelled: "bg-red-100 text-red-800 border-red-300", 
     }[s] || "bg-gray-100 text-gray-800 border-gray-300");
 
   const getStatusLabel = (s) =>
@@ -146,7 +145,7 @@ export default function MyProcedures() {
       pending: "Laukiama patvirtinimo",
       approved: "Patvirtinta",
       completed: "Įvykdyta",
-      cancelled: "Atšaukta", // Pridėta cancelled būsena
+      cancelled: "Atšaukta", 
     }[s] || s);
 
   return (
@@ -227,7 +226,7 @@ export default function MyProcedures() {
         )}
       </section>
 
-      {/* Atsiliepimo modalas */}
+
       {showModal && (
         <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center">
           <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md relative">
@@ -274,7 +273,7 @@ export default function MyProcedures() {
         </div>
       )}
 
-      {/* Datos keitimo modalas */}
+
       {showDateModal && (
         <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center">
           <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md relative">

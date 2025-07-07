@@ -21,7 +21,7 @@ exports.addBookmark = async (req, res, next) => {
     if (existingBookmark) {
       return res.status(400).json({
         status: "fail",
-        message: "Ekskursija jau yra jūsų bookmarkuose",
+        message: "Procedura jau yra jūsų bookmarkuose",
       });
     }
 

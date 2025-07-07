@@ -7,7 +7,7 @@ const {
 
 exports.leaveReview = async (req, res, next) => {
   try {
-    const userId = req.user.id; // JWT middleware nustato req.user
+    const userId = req.user.id; 
     const procedureId = parseInt(req.params.procedureId, 10);
     if (isNaN(procedureId)) {
       return res.status(400).json({ message: "Netinkamas procedureId" });
@@ -21,7 +21,7 @@ exports.leaveReview = async (req, res, next) => {
         .json({ message: "Reitingas turi būti tarp 1 ir 5." });
     }
 
-    // Patikrinam, ar vartotojas jau paliko review šiam turui
+  
     const existing = await findExistingReview(userId, procedureId);
     if (existing) {
       return res
@@ -29,7 +29,7 @@ exports.leaveReview = async (req, res, next) => {
         .json({ message: "Jūs jau palikote atsiliepimą šiam turui." });
     }
 
-    // Sukuriam review ir atnaujinam tūro reitingą (per modelį)
+  
     const review = await createReviewModel(
       userId,
       procedureId,

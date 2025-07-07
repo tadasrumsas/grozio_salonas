@@ -35,14 +35,21 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="bg-blue-950 text-white p-4">
+    <nav className="bg-linear-to-r/decreasing from-indigo-600 to-teal-600 text-white p-4 ">
       <div className="container mx-auto flex justify-between items-center">
-        {/* Logo */}
-        <Link to="/" className="text-xl font-bold">
-          Beauty salon
-        </Link>
 
-        {/* Burgerio mygtukas mažiems ekranams */}
+       <Link to="/" className="text-4xl font-bold flex items-center ">
+  <img
+    src="https://www.svgrepo.com/show/66708/scissors.svg"
+    alt=""
+    width="50"
+    height="50"
+    className="mr-2"
+  />
+  Beauty procedures
+</Link>
+
+
         <button
           className="lg:hidden focus:outline-none"
           onClick={toggleMenu}
@@ -64,7 +71,7 @@ const Navigation = () => {
           </svg>
         </button>
 
-        {/* Navigacijos nuorodos dideliems ekranams */}
+ 
         <div className="hidden lg:flex space-x-6 items-center">
           <Link to="/" className="hover:text-gray-300">
             Procedures
@@ -112,7 +119,7 @@ const Navigation = () => {
         </div>
       </div>
 
-      {/* Mobilus meniu */}
+
       <div
         className={`lg:hidden transition-all duration-300 ease-in-out overflow-hidden ${
           isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"

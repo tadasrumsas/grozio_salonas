@@ -22,17 +22,17 @@ export default function CreateProcedure() {
     },
   });
 
-  // useFieldArray leidžia valdyti dinamišką datų masyvą
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "dates",
   });
 
   const onSubmit = async (formData) => {
-    // Transformuojame dates masyvą, kad siuntume tik reikšmes
+
     const payload = {
       ...formData,
-      dates: formData.dates.map((date) => date.value), // ["2025-05-12T14:30", ...]
+      dates: formData.dates.map((date) => date.value), 
     };
     console.log("Siunčiami duomenys:", payload);
     try {
@@ -73,7 +73,7 @@ export default function CreateProcedure() {
           onSubmit={handleSubmit(onSubmit)}
           className="sm:w-1/2 w-full space-y-4 mx-auto"
         >
-          {/* Pavadinimas */}
+
           <div className="flex flex-col gap-2">
             <label htmlFor="title" className="text-md font-medium">
               Pavadinimas
@@ -109,7 +109,7 @@ export default function CreateProcedure() {
             )}
           </div>
 
-          {/* Nuotrauka */}
+
           <div className="flex flex-col gap-2">
             <label htmlFor="image" className="text-md font-medium">
               Nuotraukos URL
@@ -143,7 +143,7 @@ export default function CreateProcedure() {
             )}
           </div>
 
-          {/* Aprašymas */}
+
           <div className="flex flex-col gap-2">
             <label htmlFor="description" className="text-md font-medium">
               Aprašymas
@@ -179,7 +179,7 @@ export default function CreateProcedure() {
             )}
           </div>
 
-          {/* Vietovė */}
+
           <div className="flex flex-col gap-2">
             <label htmlFor="location" className="text-md font-medium">
               Vietovė
@@ -215,7 +215,6 @@ export default function CreateProcedure() {
             )}
           </div>
 
-          {/* Kategorija */}
           <div className="flex flex-col gap-2">
             <label htmlFor="category_name" className="text-md font-medium">
               Kategorija
@@ -245,7 +244,7 @@ export default function CreateProcedure() {
             )}
           </div>
 
-          {/* Trukmė */}
+
           <div className="flex flex-col gap-2">
             <label htmlFor="duration" className="text-md font-medium">
               Trukmė
@@ -277,7 +276,7 @@ export default function CreateProcedure() {
             )}
           </div>
 
-          {/* Kaina */}
+
           <div className="flex flex-col gap-2">
             <label htmlFor="price" className="text-md font-medium">
               Kaina
@@ -309,7 +308,6 @@ export default function CreateProcedure() {
             )}
           </div>
 
-          {/* Datos ir laikas */}
           <div className="flex flex-col gap-2">
             <label className="text-md font-medium">Procedūrų datos</label>
             {fields.map((field, index) => (
@@ -320,7 +318,7 @@ export default function CreateProcedure() {
                   {...register(`dates[${index}].value`, {
                     required: "Data ir laikas yra privalomi",
                   })}
-                  min={new Date().toISOString().slice(0, 16)} // Neleidžia pasirinkti praeities
+                  min={new Date().toISOString().slice(0, 16)} 
                 />
                 <button
                   type="button"
@@ -346,11 +344,10 @@ export default function CreateProcedure() {
             </button>
           </div>
 
-          {/* Klaidos ir sėkmės pranešimai */}
+
           {error && <p className="text-red-500 text-sm">{error}</p>}
           {message && <p className="text-green-500 text-sm">{message}</p>}
 
-          {/* Pateikimo mygtukas */}
           <div className="flex justify-end">
             <button
               type="submit"

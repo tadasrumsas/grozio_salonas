@@ -36,7 +36,6 @@ exports.getAllRegistrationsModel = async () => {
   return registrations;
 };
 
-// Gauna visas registracijas su ekskursijos informacija
 exports.getUserRegistrationsModel = async (userId) => {
   const registrations = await sql`
     SELECT 
@@ -76,7 +75,7 @@ exports.getUserRegistrationById = async (id, userId) => {
   return result[0];
 };
 
-// Patikrinam ar nauja procedure_date_id egzistuoja
+
 exports.checkProcedureDateExists = async (procedureDateId) => {
   const result = await sql`
     SELECT * FROM procedure_dates
@@ -85,7 +84,7 @@ exports.checkProcedureDateExists = async (procedureDateId) => {
   return result.length > 0;
 };
 
-// Atnaujinam registracijos datą
+
 exports.updateRegistrationDate = async (id, procedureDateId) => {
   const result = await sql`
     UPDATE registrations
@@ -96,7 +95,7 @@ exports.updateRegistrationDate = async (id, procedureDateId) => {
   return result[0];
 };
 
-// Gauti registracijos informaciją su data pagal ID ir naudotoją
+
 exports.getUserRegistrationDateModel = async (id, userId) => {
   const result = await sql`
     SELECT 

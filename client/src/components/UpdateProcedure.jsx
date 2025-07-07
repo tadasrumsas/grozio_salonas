@@ -36,7 +36,7 @@ export default function UpdateProcedure() {
         );
         console.log("Pilnas API atsakymas:", JSON.stringify(response, null, 2));
 
-        // Patikriname, ar response.data yra masyvas ir turi duomenų
+   
         if (
           !response.data ||
           !Array.isArray(response.data) ||
@@ -45,9 +45,8 @@ export default function UpdateProcedure() {
           throw new Error("Turo duomenys nerasti");
         }
 
-        const procedure = response.data[0]; // Gauname pirmąjį turo objektą
+        const procedure = response.data[0]; 
 
-        // Užpildome formą su gautais duomenimis
         setValue("title", procedure.title || "");
         setValue("image", procedure.image || "");
         setValue("description", procedure.description || "");
@@ -57,10 +56,10 @@ export default function UpdateProcedure() {
         setValue("price", Number(procedure.price) || 0);
         setValue("rating", Number(procedure.rating) || 0);
 
-        // Transformuojame dates masyvą
+  
         const formattedDates = Array.isArray(procedure.dates)
           ? procedure.dates.map((date) => ({
-              value: new Date(date.date_time).toISOString().slice(0, 16), // Pvz., "2025-07-01T07:00"
+              value: new Date(date.date_time).toISOString().slice(0, 16), 
             }))
           : [{ value: "" }];
         setValue(
@@ -88,7 +87,7 @@ export default function UpdateProcedure() {
   const onSubmit = async (formData) => {
     const payload = {
       ...formData,
-      dates: formData.dates.map((date) => date.value), // ["2025-07-01T07:00", ...]
+      dates: formData.dates.map((date) => date.value), 
     };
     console.log("Siunčiami duomenys:", payload);
     try {
@@ -129,7 +128,7 @@ export default function UpdateProcedure() {
           onSubmit={handleSubmit(onSubmit)}
           className="sm:w-1/2 w-full space-y-4 mx-auto"
         >
-          {/* Pavadinimas */}
+      
           <div className="flex flex-col gap-2">
             <label htmlFor="title" className="text-md font-medium">
               Pavadinimas
@@ -163,7 +162,7 @@ export default function UpdateProcedure() {
             )}
           </div>
 
-          {/* Nuotrauka */}
+      
           <div className="flex flex-col gap-2">
             <label htmlFor="image" className="text-md font-medium">
               Nuotraukos URL
@@ -198,7 +197,7 @@ export default function UpdateProcedure() {
             )}
           </div>
 
-          {/* Aprašymas */}
+    
           <div className="flex flex-col gap-2">
             <label htmlFor="description" className="text-md font-medium">
               Aprašymas
@@ -227,7 +226,7 @@ export default function UpdateProcedure() {
             )}
           </div>
 
-          {/* Vietovė */}
+ 
           <div className="flex flex-col gap-2">
             <label htmlFor="location" className="text-md font-medium">
               Vietovė
@@ -261,7 +260,6 @@ export default function UpdateProcedure() {
             )}
           </div>
 
-          {/* Kategorija */}
           <div className="flex flex-col gap-2">
             <label htmlFor="category_name" className="text-md font-medium">
               Kategorija
@@ -289,7 +287,6 @@ export default function UpdateProcedure() {
             )}
           </div>
 
-          {/* Trukmė */}
           <div className="flex flex-col gap-2">
             <label htmlFor="duration" className="text-md font-medium">
               Trukmė
@@ -319,7 +316,6 @@ export default function UpdateProcedure() {
             )}
           </div>
 
-          {/* Kaina */}
           <div className="flex flex-col gap-2">
             <label htmlFor="price" className="text-md font-medium">
               Kaina
@@ -350,7 +346,6 @@ export default function UpdateProcedure() {
             )}
           </div>
 
-          {/* Datos ir laikas */}
           <div className="flex flex-col gap-2">
             <label className="text-md font-medium">Procedūrų datos</label>
             {fields.map((field, index) => (
@@ -387,10 +382,10 @@ export default function UpdateProcedure() {
             </button>
           </div>
 
-          {/* Klaidos ir sėkmės pranešimai */}
+    
           {message && <p className="text-green-500 text-sm">{message}</p>}
 
-          {/* Pateikimo mygtukas */}
+  
           <div className="flex justify-end">
             <button
               type="submit"

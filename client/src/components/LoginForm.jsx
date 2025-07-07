@@ -40,10 +40,10 @@ export default function LoginForm() {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
-          // Pašalinti pasikartojančias klaidas
+      
           const errorMessages = error.response.data.message
             .split('; ')
-            .filter((msg, index, self) => self.indexOf(msg) === index) // Išfiltruoti unikalius pranešimus
+            .filter((msg, index, self) => self.indexOf(msg) === index) 
             .join('; ');
           toast.error(errorMessages, {
             position: "bottom-right",

@@ -38,7 +38,7 @@ export default function BanUsers() {
           withCredentials: true,
         });
       }
-      await fetchUsers(); // Refresh users after change
+      await fetchUsers(); 
     } catch (err) {
       setError("Klaida keičiant vartotojo būseną.");
       console.error(err);

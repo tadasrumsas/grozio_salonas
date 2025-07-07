@@ -15,7 +15,7 @@ exports.createProcedure = async (procedureData) => {
   } = procedureData;
 
   return await sql.begin(async (sql) => {
-    // 1. Gauti kategorijos ID
+
     const category = await sql`
       SELECT id FROM categories WHERE name = ${category_name};
     `;
@@ -56,7 +56,6 @@ exports.createProcedure = async (procedureData) => {
 
     const procedure = procedureResult[0];
 
-    // 3. Įterpti datas, jei pateiktos
     let createdDates = [];
 
     if (Array.isArray(dates) && dates.length > 0) {
@@ -98,7 +97,7 @@ exports.updateProcedureModel = async (
     dates,
   } = procedureData;
 
-  // 1. Gauti kategorijos ID, jei pateikta category_name
+ 
   let category_id;
   if (category_name) {
     const [category] =
@@ -109,7 +108,7 @@ exports.updateProcedureModel = async (
     category_id = category.id;
   }
 
-  // 2. Surinkti atnaujinamus laukus
+ 
   const fieldsToUpdate = {
     title,
     image,
@@ -120,12 +119,12 @@ exports.updateProcedureModel = async (
     price,
     rating,
   };
-  // Pašalinti undefined laukus
+
   const validFields = Object.fromEntries(
     Object.entries(fieldsToUpdate).filter(([_, value]) => value !== undefined)
   );
 
-  // 3. Atnaujinti ekskursiją
+
   const condition = userId ? sql`AND user_id = ${userId}` : sql``;
   const [procedure] = await sql`
     UPDATE procedures 
@@ -136,17 +135,17 @@ exports.updateProcedureModel = async (
 
   if (!procedure) {
     throw new Error(
-      `Ekskursija su ID ${procedureId} nerasta arba neturi teisių.`
+      `Procedura su ID ${procedureId} nerasta arba neturi teisių.`
     );
   }
 
-  // 4. Atnaujinti datas, jei pateiktos
+
   let updatedDates = [];
   if (Array.isArray(dates) && dates.length > 0) {
-    // Ištrinti senas datas
+
     await sql`DELETE FROM procedure_dates WHERE procedure_id = ${procedureId}`;
 
-    // Įrašyti naujas datas
+
     updatedDates = await Promise.all(
       dates.map(async (date) => {
         const [inserted] = await sql`
@@ -163,24 +162,23 @@ exports.updateProcedureModel = async (
 };
 
 exports.deleteProcedureModel = async (procedureId) => {
-  // Pirma ištrinam reviews
+
   await sql`
     DELETE FROM reviews WHERE procedure_id = ${procedureId}
   `;
 
-  // Tada ištrinam procedure_dates
   await sql`
     DELETE FROM procedure_dates WHERE procedure_id = ${procedureId}
   `;
 
-  // Tada trinam patį turą
+
   const result = await sql`
     DELETE FROM procedures WHERE id = ${procedureId}
     RETURNING *
   `;
 
   if (result.length === 0) {
-    throw new Error(`Ekskursija su ID ${procedureId} nerasta.`);
+    throw new Error(`Procedura su ID ${procedureId} nerasta.`);
   }
 
   return result[0];
@@ -309,7 +307,6 @@ exports.filterProcedures = async (filter) => {
       ${categoryCondition}
     `;
 
-    // 👇 Pagrindinis SELECT su limit + offset
     const query = `
       SELECT 
         procedures.id,

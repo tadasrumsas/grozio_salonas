@@ -193,7 +193,7 @@ exports.cancelUserRegistration = async (req, res, next) => {
       });
     }
 
-    // Patikriname, ar registracija priklauso vartotojui
+   
     const registration = await getUserRegistrationById(registrationId, userId);
     if (!registration) {
       return res.status(404).json({
@@ -202,7 +202,7 @@ exports.cancelUserRegistration = async (req, res, next) => {
       });
     }
 
-    // Patikriname, ar registracija yra tinkamoje būsenoje
+ 
     if (
       registration.status !== "pending" &&
       registration.status !== "approved"
@@ -214,7 +214,7 @@ exports.cancelUserRegistration = async (req, res, next) => {
       });
     }
 
-    // Atnaujiname būseną į cancelled
+ 
     const updatedRegistration = await updateRegistrationModel(registrationId, {
       status: "cancelled",
     });

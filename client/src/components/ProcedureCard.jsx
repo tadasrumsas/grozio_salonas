@@ -35,7 +35,7 @@ export default function ProcedureCard({
         });
         setIsBookmarked(false);
         toast.success("Procedūra pašalinta iš bookmarkų");
-        onBookmarkToggle?.(procedure.id, false); // Informuojame tėvinį komponentą
+        onBookmarkToggle?.(procedure.id, false); 
       } else {
         await axios.post(
           `${API_URL}/bookmarks/${procedure.id}`,
@@ -46,7 +46,7 @@ export default function ProcedureCard({
         );
         setIsBookmarked(true);
         toast.success("Procedūra pridėta prie bookmarkų");
-        onBookmarkToggle?.(procedure.id, true); // Informuojame tėvinį komponentą
+        onBookmarkToggle?.(procedure.id, true); 
       }
     } catch (err) {
       const msg =
