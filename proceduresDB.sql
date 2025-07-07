@@ -5,7 +5,7 @@
 -- Dumped from database version 17.2
 -- Dumped by pg_dump version 17.2
 
--- Started on 2025-07-07 12:44:08
+-- Started on 2025-07-07 13:05:32
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -380,14 +380,15 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: bookmarks; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.bookmarks (id, user_id, procedure_id, created_at) VALUES (3, 2, 5, '2025-07-07 10:22:28.481022');
-INSERT INTO public.bookmarks (id, user_id, procedure_id, created_at) VALUES (4, 2, 2, '2025-07-07 10:22:29.460309');
-INSERT INTO public.bookmarks (id, user_id, procedure_id, created_at) VALUES (5, 2, 1, '2025-07-07 10:22:43.667101');
-INSERT INTO public.bookmarks (id, user_id, procedure_id, created_at) VALUES (6, 2, 7, '2025-07-07 10:22:51.093743');
-INSERT INTO public.bookmarks (id, user_id, procedure_id, created_at) VALUES (7, 2, 6, '2025-07-07 10:22:53.155202');
-INSERT INTO public.bookmarks (id, user_id, procedure_id, created_at) VALUES (9, 3, 1, '2025-07-07 10:42:13.742491');
-INSERT INTO public.bookmarks (id, user_id, procedure_id, created_at) VALUES (19, 3, 6, '2025-07-07 11:07:56.499322');
-INSERT INTO public.bookmarks (id, user_id, procedure_id, created_at) VALUES (20, 3, 7, '2025-07-07 11:07:57.385819');
+INSERT INTO public.bookmarks VALUES (3, 2, 5, '2025-07-07 10:22:28.481022');
+INSERT INTO public.bookmarks VALUES (4, 2, 2, '2025-07-07 10:22:29.460309');
+INSERT INTO public.bookmarks VALUES (5, 2, 1, '2025-07-07 10:22:43.667101');
+INSERT INTO public.bookmarks VALUES (6, 2, 7, '2025-07-07 10:22:51.093743');
+INSERT INTO public.bookmarks VALUES (7, 2, 6, '2025-07-07 10:22:53.155202');
+INSERT INTO public.bookmarks VALUES (9, 3, 1, '2025-07-07 10:42:13.742491');
+INSERT INTO public.bookmarks VALUES (19, 3, 6, '2025-07-07 11:07:56.499322');
+INSERT INTO public.bookmarks VALUES (20, 3, 7, '2025-07-07 11:07:57.385819');
+INSERT INTO public.bookmarks VALUES (23, 3, 11, '2025-07-07 13:03:25.774632');
 
 
 --
@@ -396,8 +397,8 @@ INSERT INTO public.bookmarks (id, user_id, procedure_id, created_at) VALUES (20,
 -- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.categories (id, name) VALUES (1, 'individual');
-INSERT INTO public.categories (id, name) VALUES (2, 'groups');
+INSERT INTO public.categories VALUES (1, 'individual');
+INSERT INTO public.categories VALUES (2, 'groups');
 
 
 --
@@ -406,14 +407,14 @@ INSERT INTO public.categories (id, name) VALUES (2, 'groups');
 -- Data for Name: procedure_dates; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.procedure_dates (id, procedure_id, date_time, created_at) VALUES (1, 1, '2025-07-09 07:42:00', '2025-07-07 08:40:40.654937');
-INSERT INTO public.procedure_dates (id, procedure_id, date_time, created_at) VALUES (5, 5, '2025-07-08 08:41:00', '2025-07-07 09:39:39.89167');
-INSERT INTO public.procedure_dates (id, procedure_id, date_time, created_at) VALUES (11, 2, '2025-07-30 23:27:00', '2025-07-07 09:43:14.633884');
-INSERT INTO public.procedure_dates (id, procedure_id, date_time, created_at) VALUES (12, 6, '2025-07-10 07:49:00', '2025-07-07 09:49:10.368303');
-INSERT INTO public.procedure_dates (id, procedure_id, date_time, created_at) VALUES (13, 7, '2025-07-12 09:09:00', '2025-07-07 10:07:42.792643');
-INSERT INTO public.procedure_dates (id, procedure_id, date_time, created_at) VALUES (15, 8, '2025-08-28 05:45:00', '2025-07-07 10:58:42.907789');
-INSERT INTO public.procedure_dates (id, procedure_id, date_time, created_at) VALUES (16, 9, '2025-07-18 08:13:00', '2025-07-07 11:13:21.656881');
-INSERT INTO public.procedure_dates (id, procedure_id, date_time, created_at) VALUES (18, 11, '2025-07-23 13:25:00', '2025-07-07 12:23:02.923672');
+INSERT INTO public.procedure_dates VALUES (1, 1, '2025-07-09 07:42:00', '2025-07-07 08:40:40.654937');
+INSERT INTO public.procedure_dates VALUES (5, 5, '2025-07-08 08:41:00', '2025-07-07 09:39:39.89167');
+INSERT INTO public.procedure_dates VALUES (11, 2, '2025-07-30 23:27:00', '2025-07-07 09:43:14.633884');
+INSERT INTO public.procedure_dates VALUES (12, 6, '2025-07-10 07:49:00', '2025-07-07 09:49:10.368303');
+INSERT INTO public.procedure_dates VALUES (13, 7, '2025-07-12 09:09:00', '2025-07-07 10:07:42.792643');
+INSERT INTO public.procedure_dates VALUES (15, 8, '2025-08-28 05:45:00', '2025-07-07 10:58:42.907789');
+INSERT INTO public.procedure_dates VALUES (18, 11, '2025-07-23 13:25:00', '2025-07-07 12:23:02.923672');
+INSERT INTO public.procedure_dates VALUES (20, 9, '2025-07-18 02:13:00', '2025-07-07 12:55:03.203193');
 
 
 --
@@ -422,14 +423,14 @@ INSERT INTO public.procedure_dates (id, procedure_id, date_time, created_at) VAL
 -- Data for Name: procedures; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.procedures (id, title, image, description, location, category_id, user_id, duration, price, rating, created_at) VALUES (1, 'testas', 'https://images-cdn.redletterdays.co.uk/content-rld/MainContent/SubCategoryPages/Contentful/Pampering/BeautyTreatments/facial.webp', 'ffff', 'vilnius', 1, 1, 50, 50.00, 5.0, '2025-07-07 08:40:40.654937');
-INSERT INTO public.procedures (id, title, image, description, location, category_id, user_id, duration, price, rating, created_at) VALUES (5, 'Kirpimas', 'https://media.vyaparify.com/vcards/blogs/14836/Male-Hair-Treatment-Clinic-in-Dhayari-Pune.jpg', 'Vyru kirpimas', 'Klaipeda', 1, 1, 30, 25.00, 0.0, '2025-07-07 09:39:39.89167');
-INSERT INTO public.procedures (id, title, image, description, location, category_id, user_id, duration, price, rating, created_at) VALUES (6, 'Nagu lakavimas', 'https://greenweddingshoes.com/wp-content/uploads/2024/12/classy-black-french-tip-trendy-simple-nail-designs-with-cute-bow-ideas-thumb.jpg', 'Nagu lakavimas', 'Trakai', 1, 1, 45, 60.00, 0.0, '2025-07-07 09:49:10.368303');
-INSERT INTO public.procedures (id, title, image, description, location, category_id, user_id, duration, price, rating, created_at) VALUES (7, 'Plauku pinimas', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht47ssCX9oOn0OTYyL3iymwqotNQdsfOoyw&s', 'Plauku pinimas', 'Utena', 1, 1, 50, 60.00, 0.0, '2025-07-07 10:07:42.792643');
-INSERT INTO public.procedures (id, title, image, description, location, category_id, user_id, duration, price, rating, created_at) VALUES (2, 'Masazas', 'https://www.wayspa.com/wp-content/uploads/2022/01/massage-table.jpg', 'Masazas', 'Kaunas', 2, 1, 30, 200.00, 4.0, '2025-07-07 09:34:57.509055');
-INSERT INTO public.procedures (id, title, image, description, location, category_id, user_id, duration, price, rating, created_at) VALUES (8, 'Druskos terapijos', 'https://lsveikata.lt/upload/articles_images/3950/def/druska.jpg', 'Druskos terapija maziems ir dideliems', 'Druskininkai', 2, 1, 45, 150.00, 0.0, '2025-07-07 10:41:50.645298');
-INSERT INTO public.procedures (id, title, image, description, location, category_id, user_id, duration, price, rating, created_at) VALUES (9, 'Blakstienu auginimas', 'https://images.delfi.lt/media-api-image-cropper/v1/d2c1ba50-7bd7-11ed-9dc9-bd018b585244.jpg?noup&w=1200&h=711&fx=0.5&fy=0.25', 'Ilgos blakstienos', 'Varena', 1, 1, 30, 25.00, 0.0, '2025-07-07 11:13:21.656881');
-INSERT INTO public.procedures (id, title, image, description, location, category_id, user_id, duration, price, rating, created_at) VALUES (11, 'Antakiai', 'https://media.gettyimages.com/id/585497520/de/foto/kleiner-junge-und-seine-familie-wandern-im-wald.jpg?s=612x612&w=gi&k=20&c=TShIE8umwp2WiPWMxz76aztCHHgzw-9VoHOoYBPZmiE=', 'Antakiai', 'Vilnius', 1, 1, 25, 35.00, 0.0, '2025-07-07 12:23:02.923672');
+INSERT INTO public.procedures VALUES (1, 'testas', 'https://images-cdn.redletterdays.co.uk/content-rld/MainContent/SubCategoryPages/Contentful/Pampering/BeautyTreatments/facial.webp', 'ffff', 'vilnius', 1, 1, 50, 50.00, 5.0, '2025-07-07 08:40:40.654937');
+INSERT INTO public.procedures VALUES (5, 'Kirpimas', 'https://media.vyaparify.com/vcards/blogs/14836/Male-Hair-Treatment-Clinic-in-Dhayari-Pune.jpg', 'Vyru kirpimas', 'Klaipeda', 1, 1, 30, 25.00, 0.0, '2025-07-07 09:39:39.89167');
+INSERT INTO public.procedures VALUES (6, 'Nagu lakavimas', 'https://greenweddingshoes.com/wp-content/uploads/2024/12/classy-black-french-tip-trendy-simple-nail-designs-with-cute-bow-ideas-thumb.jpg', 'Nagu lakavimas', 'Trakai', 1, 1, 45, 60.00, 0.0, '2025-07-07 09:49:10.368303');
+INSERT INTO public.procedures VALUES (7, 'Plauku pinimas', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTht47ssCX9oOn0OTYyL3iymwqotNQdsfOoyw&s', 'Plauku pinimas', 'Utena', 1, 1, 50, 60.00, 0.0, '2025-07-07 10:07:42.792643');
+INSERT INTO public.procedures VALUES (2, 'Masazas', 'https://www.wayspa.com/wp-content/uploads/2022/01/massage-table.jpg', 'Masazas', 'Kaunas', 2, 1, 30, 200.00, 4.0, '2025-07-07 09:34:57.509055');
+INSERT INTO public.procedures VALUES (8, 'Druskos terapijos', 'https://lsveikata.lt/upload/articles_images/3950/def/druska.jpg', 'Druskos terapija maziems ir dideliems', 'Druskininkai', 2, 1, 45, 150.00, 0.0, '2025-07-07 10:41:50.645298');
+INSERT INTO public.procedures VALUES (11, 'Antakiai', 'https://hoopshype.com/wp-content/uploads/sites/92/2025/02/i_c2_90_57_anthony-davis.png?w=1000&h=600&crop=1', 'Antakiai', 'Vilnius', 1, 1, 25, 35.00, 0.0, '2025-07-07 12:23:02.923672');
+INSERT INTO public.procedures VALUES (9, 'Blakstienu auginimas', 'https://images.delfi.lt/media-api-image-cropper/v1/d2c1ba50-7bd7-11ed-9dc9-bd018b585244.jpg?noup&w=1200&h=711&fx=0.5&fy=0.25', 'Ilgos blakstienos', 'Varena', 1, 1, 30, 25.00, 0.0, '2025-07-07 11:13:21.656881');
 
 
 --
@@ -438,11 +439,12 @@ INSERT INTO public.procedures (id, title, image, description, location, category
 -- Data for Name: registrations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.registrations (id, user_id, procedure_date_id, status, registered_at) VALUES (1, 2, 1, 'completed', '2025-07-07 08:51:32.902311');
-INSERT INTO public.registrations (id, user_id, procedure_date_id, status, registered_at) VALUES (4, 3, 12, 'approved', '2025-07-07 10:37:20.152658');
-INSERT INTO public.registrations (id, user_id, procedure_date_id, status, registered_at) VALUES (3, 3, 11, 'completed', '2025-07-07 10:37:13.143905');
-INSERT INTO public.registrations (id, user_id, procedure_date_id, status, registered_at) VALUES (2, 2, 1, 'completed', '2025-07-07 08:55:36.437151');
-INSERT INTO public.registrations (id, user_id, procedure_date_id, status, registered_at) VALUES (5, 3, 18, 'approved', '2025-07-07 12:40:07.309855');
+INSERT INTO public.registrations VALUES (1, 2, 1, 'completed', '2025-07-07 08:51:32.902311');
+INSERT INTO public.registrations VALUES (4, 3, 12, 'approved', '2025-07-07 10:37:20.152658');
+INSERT INTO public.registrations VALUES (3, 3, 11, 'completed', '2025-07-07 10:37:13.143905');
+INSERT INTO public.registrations VALUES (2, 2, 1, 'completed', '2025-07-07 08:55:36.437151');
+INSERT INTO public.registrations VALUES (5, 3, 18, 'approved', '2025-07-07 12:40:07.309855');
+INSERT INTO public.registrations VALUES (6, 3, 20, 'pending', '2025-07-07 13:03:22.249535');
 
 
 --
@@ -451,8 +453,8 @@ INSERT INTO public.registrations (id, user_id, procedure_date_id, status, regist
 -- Data for Name: reviews; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.reviews (id, user_id, procedure_id, rating, comment, created_at) VALUES (1, 2, 1, 5, 'geras', '2025-07-07 09:14:02.636866');
-INSERT INTO public.reviews (id, user_id, procedure_id, rating, comment, created_at) VALUES (2, 3, 2, 4, 'neblogas masaziukas', '2025-07-07 10:38:32.172554');
+INSERT INTO public.reviews VALUES (1, 2, 1, 5, 'geras', '2025-07-07 09:14:02.636866');
+INSERT INTO public.reviews VALUES (2, 3, 2, 4, 'neblogas masaziukas', '2025-07-07 10:38:32.172554');
 
 
 --
@@ -461,9 +463,9 @@ INSERT INTO public.reviews (id, user_id, procedure_id, rating, comment, created_
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.users (id, name, email, password, role, created_at, is_banned) VALUES (1, 'tadas', 'tadas@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$YVQD/j0zPeTcfquMGZLz9g$0uWzrxUNkb9o0VcUaPjOlmiU9BW0pz+D9W1C/Q/6VRE', 'admin', '2025-07-07 08:13:37.797464', false);
-INSERT INTO public.users (id, name, email, password, role, created_at, is_banned) VALUES (2, 'tadas123', 'tadas123@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$sZ4SVN9BNfy5S8wi3hD29w$43QWNbwhOP59pgDHkyuiAO7o+zW5y6ETlqFX54S7p2Q', 'user', '2025-07-07 08:51:14.711665', false);
-INSERT INTO public.users (id, name, email, password, role, created_at, is_banned) VALUES (3, 'tadas1234', 'tadas1234@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$PdB9r2Hzt2qAuXiH7BKSvg$Tgp0Iai39eZC2J1/YKtnsKY97Jw9rvegRy3hg7k7Ml4', 'user', '2025-07-07 10:37:03.330719', false);
+INSERT INTO public.users VALUES (1, 'tadas', 'tadas@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$YVQD/j0zPeTcfquMGZLz9g$0uWzrxUNkb9o0VcUaPjOlmiU9BW0pz+D9W1C/Q/6VRE', 'admin', '2025-07-07 08:13:37.797464', false);
+INSERT INTO public.users VALUES (2, 'tadas123', 'tadas123@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$sZ4SVN9BNfy5S8wi3hD29w$43QWNbwhOP59pgDHkyuiAO7o+zW5y6ETlqFX54S7p2Q', 'user', '2025-07-07 08:51:14.711665', false);
+INSERT INTO public.users VALUES (3, 'tadas1234', 'tadas1234@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$PdB9r2Hzt2qAuXiH7BKSvg$Tgp0Iai39eZC2J1/YKtnsKY97Jw9rvegRy3hg7k7Ml4', 'user', '2025-07-07 10:37:03.330719', false);
 
 
 --
@@ -472,7 +474,7 @@ INSERT INTO public.users (id, name, email, password, role, created_at, is_banned
 -- Name: bookmarks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.bookmarks_id_seq', 22, true);
+SELECT pg_catalog.setval('public.bookmarks_id_seq', 23, true);
 
 
 --
@@ -490,7 +492,7 @@ SELECT pg_catalog.setval('public.categories_id_seq', 2, true);
 -- Name: registrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.registrations_id_seq', 5, true);
+SELECT pg_catalog.setval('public.registrations_id_seq', 6, true);
 
 
 --
@@ -508,7 +510,7 @@ SELECT pg_catalog.setval('public.reviews_id_seq', 2, true);
 -- Name: tour_dates_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.tour_dates_id_seq', 18, true);
+SELECT pg_catalog.setval('public.tour_dates_id_seq', 20, true);
 
 
 --
@@ -691,7 +693,7 @@ ALTER TABLE ONLY public.procedures
     ADD CONSTRAINT tours_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
--- Completed on 2025-07-07 12:44:09
+-- Completed on 2025-07-07 13:05:33
 
 --
 -- PostgreSQL database dump complete
