@@ -4,12 +4,12 @@ import Navigation from "./Navigation";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function MyTours() {
+export default function MyProcedures() {
   const [registrations, setRegistrations] = useState([]);
   const [error, setError] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
-  const [selectedTour, setSelectedTour] = useState(null);
+  const [selectedProcedure, setSelectedProcedure] = useState(null);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [reviewError, setReviewError] = useState("");
@@ -38,8 +38,8 @@ export default function MyTours() {
     fetchRegistrations();
   }, []);
 
-  const openModal = (tourId) => {
-    setSelectedTour(tourId);
+  const openModal = (procedureId) => {
+    setSelectedProcedure(procedureId);
     setRating(0);
     setComment("");
     setReviewError("");
@@ -48,7 +48,7 @@ export default function MyTours() {
 
   const closeModal = () => {
     setShowModal(false);
-    setSelectedTour(null);
+    setSelectedProcedure(null);
     setRating(0);
     setComment("");
     setReviewError("");
@@ -61,7 +61,7 @@ export default function MyTours() {
     }
     try {
       await axios.post(
-        `${API_URL}/reviews/${selectedTour}`,
+        `${API_URL}/reviews/${selectedProcedure}`,
         { rating, comment },
         { withCredentials: true }
       );
@@ -76,9 +76,12 @@ export default function MyTours() {
 
   const openDateModal = async (registration) => {
     try {
-      const res = await axios.get(`${API_URL}/registrations/${registration.registration_id}/date`, {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${API_URL}/registrations/${registration.registration_id}/date`,
+        {
+          withCredentials: true,
+        }
+      );
       setAvailableDates(res.data.data);
       setSelectedRegistration(registration);
       setNewDateId(null);
@@ -97,7 +100,7 @@ export default function MyTours() {
     try {
       await axios.patch(
         `${API_URL}/registrations/${selectedRegistration.registration_id}/date`,
-        { tour_date_id: newDateId },
+        { procedure_date_id: newDateId },
         { withCredentials: true }
       );
       setShowDateModal(false);
@@ -151,7 +154,9 @@ export default function MyTours() {
       <Navigation />
 
       <section className="max-w-6xl mx-auto px-4 py-8">
-        <h2 className="text-3xl font-bold mb-6 text-gray-800">Mano registracijos</h2>
+        <h2 className="text-3xl font-bold mb-6 text-gray-800">
+          Mano registracijos
+        </h2>
 
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
@@ -164,10 +169,18 @@ export default function MyTours() {
                 key={reg.registration_id}
                 className="bg-white border rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300"
               >
-                <img src={reg.image} alt={reg.title} className="w-full h-44 object-cover rounded-t-2xl" />
+                <img
+                  src={reg.image}
+                  alt={reg.title}
+                  className="w-full h-44 object-cover rounded-t-2xl"
+                />
                 <div className="p-4 flex flex-col gap-2">
-                  <h3 className="text-xl font-semibold text-gray-800">{reg.title}</h3>
-                  <p className="text-sm text-gray-600">Lokacija: {reg.location}</p>
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    {reg.title}
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Lokacija: {reg.location}
+                  </p>
                   <p className="text-sm text-gray-600">
                     Data: {new Date(reg.date_time).toLocaleString("lt-LT")}
                   </p>
@@ -189,7 +202,9 @@ export default function MyTours() {
                         Keisti datą
                       </button>
                       <button
-                        onClick={() => handleCancelRegistration(reg.registration_id)}
+                        onClick={() =>
+                          handleCancelRegistration(reg.registration_id)
+                        }
                         className="mt-1 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
                       >
                         Atšaukti
@@ -199,7 +214,7 @@ export default function MyTours() {
 
                   {reg.status === "completed" && (
                     <button
-                      onClick={() => openModal(Number(reg.tour_id))}
+                      onClick={() => openModal(Number(reg.procedure_id))}
                       className="mt-2 bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600 text-sm"
                     >
                       Įvertinti turą
@@ -230,7 +245,9 @@ export default function MyTours() {
                 <button
                   key={n}
                   onClick={() => setRating(n)}
-                  className={`text-2xl ${rating >= n ? "text-yellow-400" : "text-gray-300"}`}
+                  className={`text-2xl ${
+                    rating >= n ? "text-yellow-400" : "text-gray-300"
+                  }`}
                 >
                   ★
                 </button>
@@ -268,7 +285,9 @@ export default function MyTours() {
               ×
             </button>
 
-            <h2 className="text-xl font-semibold mb-4">Pasirinkite naują datą</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              Pasirinkite naują datą
+            </h2>
 
             {availableDates.length === 0 ? (
               <p className="text-gray-600">Nėra galimų datų</p>
@@ -287,7 +306,9 @@ export default function MyTours() {
               </select>
             )}
 
-            {dateChangeError && <p className="text-red-600 mb-3">{dateChangeError}</p>}
+            {dateChangeError && (
+              <p className="text-red-600 mb-3">{dateChangeError}</p>
+            )}
 
             <button
               onClick={handleChangeDate}

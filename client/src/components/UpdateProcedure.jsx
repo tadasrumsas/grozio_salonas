@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useForm, useFieldArray } from 'react-hook-form';
-import { useParams } from 'react-router';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useForm, useFieldArray } from "react-hook-form";
+import { useParams } from "react-router";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function UpdateTour() {
+export default function UpdateProcedure() {
   const [error, setError] = useState(null);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
 
@@ -18,61 +18,71 @@ export default function UpdateTour() {
     formState: { errors },
     setValue,
   } = useForm({
-    mode: 'onChange',
+    mode: "onChange",
     defaultValues: {
-      dates: [{ value: '' }],
+      dates: [{ value: "" }],
     },
   });
 
   useEffect(() => {
-    const fetchTour = async () => {
+    const fetchProcedure = async () => {
       try {
         setLoading(true);
-        const { data: response } = await axios.get(`${API_URL}/tours/${id}`, {
-          withCredentials: true,
-        });
-        console.log('Pilnas API atsakymas:', JSON.stringify(response, null, 2));
+        const { data: response } = await axios.get(
+          `${API_URL}/procedures/${id}`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log("Pilnas API atsakymas:", JSON.stringify(response, null, 2));
 
         // Patikriname, ar response.data yra masyvas ir turi duomenų
-        if (!response.data || !Array.isArray(response.data) || response.data.length === 0) {
-          throw new Error('Turo duomenys nerasti');
+        if (
+          !response.data ||
+          !Array.isArray(response.data) ||
+          response.data.length === 0
+        ) {
+          throw new Error("Turo duomenys nerasti");
         }
 
-        const tour = response.data[0]; // Gauname pirmąjį turo objektą
+        const procedure = response.data[0]; // Gauname pirmąjį turo objektą
 
         // Užpildome formą su gautais duomenimis
-        setValue('title', tour.title || '');
-        setValue('image', tour.image || '');
-        setValue('description', tour.description || '');
-        setValue('location', tour.location || '');
-        setValue('category_name', tour.category_name || '');
-        setValue('duration', Number(tour.duration) || 0);
-        setValue('price', Number(tour.price) || 0);
-        setValue('rating', Number(tour.rating) || 0);
+        setValue("title", procedure.title || "");
+        setValue("image", procedure.image || "");
+        setValue("description", procedure.description || "");
+        setValue("location", procedure.location || "");
+        setValue("category_name", procedure.category_name || "");
+        setValue("duration", Number(procedure.duration) || 0);
+        setValue("price", Number(procedure.price) || 0);
+        setValue("rating", Number(procedure.rating) || 0);
 
         // Transformuojame dates masyvą
-        const formattedDates = Array.isArray(tour.dates)
-          ? tour.dates.map((date) => ({
+        const formattedDates = Array.isArray(procedure.dates)
+          ? procedure.dates.map((date) => ({
               value: new Date(date.date_time).toISOString().slice(0, 16), // Pvz., "2025-07-01T07:00"
             }))
-          : [{ value: '' }];
-        setValue('dates', formattedDates.length > 0 ? formattedDates : [{ value: '' }]);
+          : [{ value: "" }];
+        setValue(
+          "dates",
+          formattedDates.length > 0 ? formattedDates : [{ value: "" }]
+        );
       } catch (error) {
-        setError('Nepavyko užkrauti turo duomenų. Bandykite dar kartą.');
-        console.error('Klaida:', error);
+        setError("Nepavyko užkrauti turo duomenų. Bandykite dar kartą.");
+        console.error("Klaida:", error);
       } finally {
         setLoading(false);
       }
     };
 
     if (id) {
-      fetchTour();
+      fetchProcedure();
     }
   }, [id, setValue]);
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'dates',
+    name: "dates",
   });
 
   const onSubmit = async (formData) => {
@@ -80,26 +90,32 @@ export default function UpdateTour() {
       ...formData,
       dates: formData.dates.map((date) => date.value), // ["2025-07-01T07:00", ...]
     };
-    console.log('Siunčiami duomenys:', payload);
+    console.log("Siunčiami duomenys:", payload);
     try {
-      const { data: response } = await axios.patch(`${API_URL}/tours/${id}`, payload, {
-        withCredentials: true,
-      });
+      const { data: response } = await axios.patch(
+        `${API_URL}/procedures/${id}`,
+        payload,
+        {
+          withCredentials: true,
+        }
+      );
       console.log(response);
-      setMessage('Turą pavyko atnaujinti!');
+      setMessage("Turą pavyko atnaujinti!");
       setError(null);
     } catch (error) {
-      console.error('Klaida:', error.response?.data);
+      console.error("Klaida:", error.response?.data);
       if (axios.isAxiosError(error)) {
         if (error.response) {
-          setError(error.response.data.message || 'Įvyko klaida, bandykite dar kartą');
+          setError(
+            error.response.data.message || "Įvyko klaida, bandykite dar kartą"
+          );
         } else if (error.request) {
-          setError('Nėra atsakymo iš serverio. Patikrinkite interneto ryšį');
+          setError("Nėra atsakymo iš serverio. Patikrinkite interneto ryšį");
         } else {
-          setError('Kažkas nepavyko. Bandykite dar kartą');
+          setError("Kažkas nepavyko. Bandykite dar kartą");
         }
       } else {
-        setError('Įvyko netikėta klaida');
+        setError("Įvyko netikėta klaida");
       }
     }
   };
@@ -123,25 +139,27 @@ export default function UpdateTour() {
               id="title"
               placeholder="Pavadinimas"
               className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
-              {...register('title', {
-                required: 'Pavadinimas yra privalomas',
+              {...register("title", {
+                required: "Pavadinimas yra privalomas",
                 minLength: {
                   value: 3,
-                  message: 'Pavadinimas turi būti bent 3 simbolių ilgio',
+                  message: "Pavadinimas turi būti bent 3 simbolių ilgio",
                 },
                 maxLength: {
                   value: 40,
-                  message: 'Pavadinimas turi būti ne ilgesnis nei 40 simbolių',
+                  message: "Pavadinimas turi būti ne ilgesnis nei 40 simbolių",
                 },
                 pattern: {
                   value: /^[\p{L}0-9\s\-',.]+$/u,
                   message:
-                    'Pavadinime gali būti tik raidės (įskaitant lietuviškas), skaičiai, tarpai, brūkšneliai, kableliai ir taškai',
+                    "Pavadinime gali būti tik raidės (įskaitant lietuviškas), skaičiai, tarpai, brūkšneliai, kableliai ir taškai",
                 },
               })}
             />
             {errors.title && (
-              <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.title.message}
+              </p>
             )}
           </div>
 
@@ -155,25 +173,28 @@ export default function UpdateTour() {
               id="image"
               placeholder="Nuotraukos URL"
               className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
-              {...register('image', {
-                required: 'Nuotraukos URL yra privalomas',
+              {...register("image", {
+                required: "Nuotraukos URL yra privalomas",
                 minLength: {
                   value: 3,
-                  message: 'Nuotraukos URL turi būti bent 3 simbolių ilgio',
+                  message: "Nuotraukos URL turi būti bent 3 simbolių ilgio",
                 },
                 maxLength: {
                   value: 200,
-                  message: 'Nuotraukos URL turi būti ne ilgesnis nei 200 simbolių',
+                  message:
+                    "Nuotraukos URL turi būti ne ilgesnis nei 200 simbolių",
                 },
                 pattern: {
                   value:
                     /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[\w-./?%&=+:@#;]*)?$/i,
-                  message: 'Nuotraukos URL turi būti galiojantis URL',
+                  message: "Nuotraukos URL turi būti galiojantis URL",
                 },
               })}
             />
             {errors.image && (
-              <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.image.message}
+              </p>
             )}
           </div>
 
@@ -187,20 +208,22 @@ export default function UpdateTour() {
               placeholder="Aprašymas"
               className="w-full h-32 resize-none rounded-md border border-gray-300 p-2 shadow-sm focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
               rows={4}
-              {...register('description', {
-                required: 'Aprašymas yra privalomas',
+              {...register("description", {
+                required: "Aprašymas yra privalomas",
                 minLength: {
                   value: 3,
-                  message: 'Aprašymas turi būti bent 3 simbolių ilgio',
+                  message: "Aprašymas turi būti bent 3 simbolių ilgio",
                 },
                 maxLength: {
                   value: 1000,
-                  message: 'Aprašymas turi būti ne ilgesnis nei 1000 simbolių',
+                  message: "Aprašymas turi būti ne ilgesnis nei 1000 simbolių",
                 },
               })}
             />
             {errors.description && (
-              <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.description.message}
+              </p>
             )}
           </div>
 
@@ -214,25 +237,27 @@ export default function UpdateTour() {
               id="location"
               placeholder="Vietovė"
               className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
-              {...register('location', {
-                required: 'Vietovė yra privaloma',
+              {...register("location", {
+                required: "Vietovė yra privaloma",
                 minLength: {
                   value: 3,
-                  message: 'Vietovė turi būti bent 3 simbolių ilgio',
+                  message: "Vietovė turi būti bent 3 simbolių ilgio",
                 },
                 maxLength: {
                   value: 100,
-                  message: 'Vietovė turi būti ne ilgesnė nei 100 simbolių',
+                  message: "Vietovė turi būti ne ilgesnė nei 100 simbolių",
                 },
                 pattern: {
                   value: /^[a-zA-Z0-9\s\-',.]+$/,
                   message:
-                    'Vietovėje gali būti tik raidės, skaičiai, tarpai, brūkšneliai, kableliai ir taškai',
+                    "Vietovėje gali būti tik raidės, skaičiai, tarpai, brūkšneliai, kableliai ir taškai",
                 },
               })}
             />
             {errors.location && (
-              <p className="text-red-500 text-sm mt-1">{errors.location.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.location.message}
+              </p>
             )}
           </div>
 
@@ -244,11 +269,11 @@ export default function UpdateTour() {
             <select
               id="category_name"
               className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
-              {...register('category_name', {
-                required: 'Kategorija yra privaloma',
+              {...register("category_name", {
+                required: "Kategorija yra privaloma",
                 validate: {
                   isValidCategory: (value) =>
-                    ['individual', 'groups'].includes(value) ||
+                    ["individual", "groups"].includes(value) ||
                     'Kategorija turi būti "individual" arba "groups"',
                 },
               })}
@@ -258,7 +283,9 @@ export default function UpdateTour() {
               <option value="groups">Groups</option>
             </select>
             {errors.category_name && (
-              <p className="text-red-500 text-sm mt-1">{errors.category_name.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.category_name.message}
+              </p>
             )}
           </div>
 
@@ -272,21 +299,23 @@ export default function UpdateTour() {
               id="duration"
               placeholder="Trukmė"
               className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
-              {...register('duration', {
-                required: 'Trukmė yra privaloma',
+              {...register("duration", {
+                required: "Trukmė yra privaloma",
                 valueAsNumber: true,
                 min: {
                   value: 1,
-                  message: 'Mažiausia reikšmė yra 1',
+                  message: "Mažiausia reikšmė yra 1",
                 },
                 max: {
                   value: 600,
-                  message: 'Didžiausia reikšmė yra 600',
+                  message: "Didžiausia reikšmė yra 600",
                 },
               })}
             />
             {errors.duration && (
-              <p className="text-red-500 text-sm mt-1">{errors.duration.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.duration.message}
+              </p>
             )}
           </div>
 
@@ -301,21 +330,23 @@ export default function UpdateTour() {
               placeholder="Kaina"
               step="0.01"
               className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
-              {...register('price', {
-                required: 'Kaina yra privaloma',
+              {...register("price", {
+                required: "Kaina yra privaloma",
                 valueAsNumber: true,
                 min: {
                   value: 0.01,
-                  message: 'Mažiausia reikšmė yra 0.01',
+                  message: "Mažiausia reikšmė yra 0.01",
                 },
                 max: {
                   value: 10000,
-                  message: 'Didžiausia reikšmė yra 10000',
+                  message: "Didžiausia reikšmė yra 10000",
                 },
               })}
             />
             {errors.price && (
-              <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.price.message}
+              </p>
             )}
           </div>
 
@@ -328,7 +359,7 @@ export default function UpdateTour() {
                   type="datetime-local"
                   className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
                   {...register(`dates[${index}].value`, {
-                    required: 'Data ir laikas yra privalomi',
+                    required: "Data ir laikas yra privalomi",
                   })}
                   min={new Date().toISOString().slice(0, 16)}
                 />
@@ -349,7 +380,7 @@ export default function UpdateTour() {
 
             <button
               type="button"
-              onClick={() => append({ value: '' })}
+              onClick={() => append({ value: "" })}
               className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-2"
             >
               Pridėti datą

@@ -8,7 +8,7 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
-  
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -75,7 +75,7 @@ const Navigation = () => {
             </Link>
           )}
           {user?.role === "user" && (
-            <Link to={`/my-tours`} className="hover:text-gray-300">
+            <Link to={`/my-procedures`} className="hover:text-gray-300">
               My procedures
             </Link>
           )}
@@ -120,7 +120,7 @@ const Navigation = () => {
       >
         <div className="flex flex-col space-y-4 mt-4">
           <Link to="/" onClick={toggleMenu} className="hover:text-gray-300">
-            Tours
+            Procedures
           </Link>
           {user?.role === "admin" && (
             <Link
@@ -132,8 +132,8 @@ const Navigation = () => {
             </Link>
           )}
           {user?.role === "user" && (
-            <Link to={`/my-tours`} className="hover:text-gray-300">
-              My Tours
+            <Link to={`/my-procedures`} className="hover:text-gray-300">
+              My Procedures
             </Link>
           )}
           {user?.role === "user" && (

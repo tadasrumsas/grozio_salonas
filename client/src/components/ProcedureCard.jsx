@@ -1,15 +1,20 @@
-import { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router';
-import { FaStar, FaHeart } from 'react-icons/fa';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import UserContext from '../contexts/UserContext';
+import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router";
+import { FaStar, FaHeart } from "react-icons/fa";
+import axios from "axios";
+import { toast } from "react-toastify";
+import UserContext from "../contexts/UserContext";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function TourCard({ tour, onDelete, isBookmarked: isBookmarkedProp, onBookmarkToggle }) {
+export default function ProcedureCard({
+  procedure,
+  onDelete,
+  isBookmarked: isBookmarkedProp,
+  onBookmarkToggle,
+}) {
   const { user } = useContext(UserContext);
-  const isAdmin = user && user.role === 'admin';
+  const isAdmin = user && user.role === "admin";
   const isLoggedIn = !!user;
   const [isBookmarked, setIsBookmarked] = useState(isBookmarkedProp ?? false);
   const [error, setError] = useState(null);
@@ -20,27 +25,32 @@ export default function TourCard({ tour, onDelete, isBookmarked: isBookmarkedPro
 
   const handleBookmarkToggle = async () => {
     if (!isLoggedIn) {
-      toast.error('Prisijunkite, kad galėtumėte pridėti bookmarką');
+      toast.error("Prisijunkite, kad galėtumėte pridėti bookmarką");
       return;
     }
     try {
       if (isBookmarked) {
-        await axios.delete(`${API_URL}/bookmarks/${tour.id}`, {
+        await axios.delete(`${API_URL}/bookmarks/${procedure.id}`, {
           withCredentials: true,
         });
         setIsBookmarked(false);
-        toast.success('Procedūra pašalinta iš bookmarkų');
-        onBookmarkToggle?.(tour.id, false); // Informuojame tėvinį komponentą
+        toast.success("Procedūra pašalinta iš bookmarkų");
+        onBookmarkToggle?.(procedure.id, false); // Informuojame tėvinį komponentą
       } else {
-        await axios.post(`${API_URL}/bookmarks/${tour.id}`, {}, {
-          withCredentials: true,
-        });
+        await axios.post(
+          `${API_URL}/bookmarks/${procedure.id}`,
+          {},
+          {
+            withCredentials: true,
+          }
+        );
         setIsBookmarked(true);
-        toast.success('Procedūra pridėta prie bookmarkų');
-        onBookmarkToggle?.(tour.id, true); // Informuojame tėvinį komponentą
+        toast.success("Procedūra pridėta prie bookmarkų");
+        onBookmarkToggle?.(procedure.id, true); // Informuojame tėvinį komponentą
       }
     } catch (err) {
-      const msg = err.response?.data?.message || 'Nepavyko atnaujinti bookmarko';
+      const msg =
+        err.response?.data?.message || "Nepavyko atnaujinti bookmarko";
       setError(msg);
       toast.error(msg);
     }
@@ -51,41 +61,47 @@ export default function TourCard({ tour, onDelete, isBookmarked: isBookmarkedPro
       <div className="relative">
         <img
           className="w-full h-[16rem] sm:h-[14rem] object-cover rounded-lg shadow-sm"
-          src={tour.image}
-          alt={tour.title}
+          src={procedure.image}
+          alt={procedure.title}
         />
         {isLoggedIn && (
           <button
             onClick={handleBookmarkToggle}
             className="absolute top-2 right-2 p-2 rounded-full bg-white bg-opacity-70 hover:bg-opacity-100 transition-colors"
-            title={isBookmarked ? 'Pašalinti iš bookmarkų' : 'Pridėti prie bookmarkų'}
+            title={
+              isBookmarked ? "Pašalinti iš bookmarkų" : "Pridėti prie bookmarkų"
+            }
           >
             <FaHeart
-              className={isBookmarked ? 'text-red-500' : 'text-gray-400'}
+              className={isBookmarked ? "text-red-500" : "text-gray-400"}
               size={24}
             />
           </button>
         )}
       </div>
       <div className="mt-3">
-        <h2 className="font-bold text-xl sm:text-2xl text-gray-800 truncate">{tour.title}</h2>
-        <p className="text-gray-600 text-sm mt-1">{tour.duration} min</p>
-        <p className="text-gray-600 text-sm mt-1">{tour.category_name}</p>
-        <p className="text-gray-600 text-sm mt-1">{tour.location}</p>
-        <p className="text-gray-800 font-semibold text-lg">{tour.price}€</p>
+        <h2 className="font-bold text-xl sm:text-2xl text-gray-800 truncate">
+          {procedure.title}
+        </h2>
+        <p className="text-gray-600 text-sm mt-1">{procedure.duration} min</p>
+        <p className="text-gray-600 text-sm mt-1">{procedure.category_name}</p>
+        <p className="text-gray-600 text-sm mt-1">{procedure.location}</p>
+        <p className="text-gray-800 font-semibold text-lg">
+          {procedure.price}€
+        </p>
         <p className="flex items-center text-gray-600 text-sm mt-1">
-          {tour.rating}
+          {procedure.rating}
           <FaStar className="text-yellow-400 ml-1" />
         </p>
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         <div className="flex flex-wrap gap-2 mt-4">
-          <Link to={`/tour/${tour.id}`} className="flex-1">
+          <Link to={`/procedure/${procedure.id}`} className="flex-1">
             <button className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200">
               Details
             </button>
           </Link>
           {isAdmin && (
-            <Link to={`/update/${tour.id}`} className="flex-1">
+            <Link to={`/update/${procedure.id}`} className="flex-1">
               <button className="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-200">
                 Update
               </button>

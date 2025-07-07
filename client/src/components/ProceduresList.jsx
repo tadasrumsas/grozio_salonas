@@ -2,15 +2,15 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Navigation from "./Navigation";
 import { ToastContainer } from "react-toastify";
-import TourCard from "./TourCard";
+import ProcedureCard from "./ProcedureCard";
 import { toast } from "react-toastify";
-import UserContext from "../contexts/UserContext"; 
+import UserContext from "../contexts/UserContext";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function ToursList() {
-  const { user } = useContext(UserContext); 
-  const [tours, setTours] = useState([]);
+export default function ProceduresList() {
+  const { user } = useContext(UserContext);
+  const [procedures, setProcedures] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
@@ -19,15 +19,15 @@ export default function ToursList() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(6);
   const [totalPages, setTotalPages] = useState(1);
-  const [bookmarkedIds, setBookmarkedIds] = useState(new Set()); 
+  const [bookmarkedIds, setBookmarkedIds] = useState(new Set());
 
   useEffect(() => {
-    const fetchTours = async () => {
+    const fetchProcedures = async () => {
       setLoading(true);
       const [sort_field, sort_direction] = sortOption.split("_");
 
       try {
-        const response = await axios.get(`${API_URL}/tours`, {
+        const response = await axios.get(`${API_URL}/procedures`, {
           params: {
             search,
             category,
@@ -38,7 +38,7 @@ export default function ToursList() {
           },
           withCredentials: true,
         });
-        setTours(response.data.data);
+        setProcedures(response.data.data);
         setTotalPages(response.data.totalPages || 1);
       } catch (error) {
         console.error(error.message);
@@ -54,45 +54,51 @@ export default function ToursList() {
         const res = await axios.get(`${API_URL}/bookmarks`, {
           withCredentials: true,
         });
-        const ids = res.data.data.map((b) => b.tour_id);
+        const ids = res.data.data.map((b) => b.procedure_id);
         setBookmarkedIds(new Set(ids));
       } catch (err) {
         console.error("Nepavyko gauti bookmarkų");
       }
     };
 
-    fetchTours();
+    fetchProcedures();
     fetchBookmarks(); // ➕ Pridėta
   }, [search, category, sortOption, page, limit, user]);
 
-  const handleBookmarkToggle = (tourId, isBookmarked) => {
+  const handleBookmarkToggle = (procedureId, isBookmarked) => {
     setBookmarkedIds((prev) => {
       const updated = new Set(prev);
-      isBookmarked ? updated.add(tourId) : updated.delete(tourId);
+      isBookmarked ? updated.add(procedureId) : updated.delete(procedureId);
       return updated;
     });
 
     // Atvaizdavimui išlaikyti ir seną būdą
-    setTours((prevTours) =>
-      prevTours.map((tour) =>
-        tour.id === tourId ? { ...tour, isBookmarked } : tour
+    setProcedures((prevProcedures) =>
+      prevProcedures.map((procedure) =>
+        procedure.id === procedureId
+          ? { ...procedure, isBookmarked }
+          : procedure
       )
     );
   };
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm('Ar tikrai norite ištrinti šią pocedura?');
+    const confirmDelete = window.confirm(
+      "Ar tikrai norite ištrinti šią pocedura?"
+    );
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`${API_URL}/tours/${id}`, {
+      await axios.delete(`${API_URL}/procedures/${id}`, {
         withCredentials: true,
       });
-      setTours((prevTours) => prevTours.filter((tour) => tour.id !== id));
-      toast.success('Procedura sėkmingai ištrinta');
+      setProcedures((prevProcedures) =>
+        prevProcedures.filter((procedure) => procedure.id !== id)
+      );
+      toast.success("Procedura sėkmingai ištrinta");
     } catch (error) {
-      console.error('Klaida trynimo metu:', error);
-      toast.error('Nepavyko ištrinti proceduros');
+      console.error("Klaida trynimo metu:", error);
+      toast.error("Nepavyko ištrinti proceduros");
     }
   };
 
@@ -134,15 +140,15 @@ export default function ToursList() {
             <p>Loading...</p>
           ) : error ? (
             <p className="text-red-500">{error}</p>
-          ) : tours.length === 0 ? (
+          ) : procedures.length === 0 ? (
             <p>No procedures found.</p>
           ) : (
-            tours.map((tour) => (
-              <TourCard
-                key={tour.id}
-                tour={tour}
-                onDelete={() => handleDelete(tour.id)}
-                isBookmarked={bookmarkedIds.has(tour.id)} 
+            procedures.map((procedure) => (
+              <ProcedureCard
+                key={procedure.id}
+                procedure={procedure}
+                onDelete={() => handleDelete(procedure.id)}
+                isBookmarked={bookmarkedIds.has(procedure.id)}
                 onBookmarkToggle={handleBookmarkToggle}
               />
             ))
@@ -160,7 +166,9 @@ export default function ToursList() {
             Page {page} of {totalPages}
           </span>
           <button
-            onClick={() => setPage((prev) => (prev < totalPages ? prev + 1 : prev))}
+            onClick={() =>
+              setPage((prev) => (prev < totalPages ? prev + 1 : prev))
+            }
             disabled={page >= totalPages}
             className="bg-gray-200 px-4 py-2 rounded disabled:opacity-50"
           >
