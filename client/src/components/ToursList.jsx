@@ -1,12 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Navigation from "./Navigation";
 import { ToastContainer } from "react-toastify";
 import TourCard from "./TourCard";
 import { toast } from "react-toastify";
+import UserContext from "../contexts/UserContext"; 
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function ToursList() {
+  const { user } = useContext(UserContext); 
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -16,6 +19,7 @@ export default function ToursList() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(6);
   const [totalPages, setTotalPages] = useState(1);
+  const [bookmarkedIds, setBookmarkedIds] = useState(new Set()); 
 
   useEffect(() => {
     const fetchTours = async () => {
@@ -44,10 +48,31 @@ export default function ToursList() {
       }
     };
 
+    const fetchBookmarks = async () => {
+      if (!user) return;
+      try {
+        const res = await axios.get(`${API_URL}/bookmarks`, {
+          withCredentials: true,
+        });
+        const ids = res.data.data.map((b) => b.tour_id);
+        setBookmarkedIds(new Set(ids));
+      } catch (err) {
+        console.error("Nepavyko gauti bookmarkų");
+      }
+    };
+
     fetchTours();
-  }, [search, category, sortOption, page, limit]);
+    fetchBookmarks(); // ➕ Pridėta
+  }, [search, category, sortOption, page, limit, user]);
 
   const handleBookmarkToggle = (tourId, isBookmarked) => {
+    setBookmarkedIds((prev) => {
+      const updated = new Set(prev);
+      isBookmarked ? updated.add(tourId) : updated.delete(tourId);
+      return updated;
+    });
+
+    // Atvaizdavimui išlaikyti ir seną būdą
     setTours((prevTours) =>
       prevTours.map((tour) =>
         tour.id === tourId ? { ...tour, isBookmarked } : tour
@@ -56,7 +81,7 @@ export default function ToursList() {
   };
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm('Ar tikrai norite ištrinti šią ekskursiją?');
+    const confirmDelete = window.confirm('Ar tikrai norite ištrinti šią pocedura?');
     if (!confirmDelete) return;
 
     try {
@@ -64,10 +89,10 @@ export default function ToursList() {
         withCredentials: true,
       });
       setTours((prevTours) => prevTours.filter((tour) => tour.id !== id));
-      toast.success('Ekskursija sėkmingai ištrinta');
+      toast.success('Procedura sėkmingai ištrinta');
     } catch (error) {
       console.error('Klaida trynimo metu:', error);
-      toast.error('Nepavyko ištrinti ekskursijos');
+      toast.error('Nepavyko ištrinti proceduros');
     }
   };
 
@@ -104,7 +129,7 @@ export default function ToursList() {
             <option value="rating_desc">Rating ↓</option>
           </select>
         </div>
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-8 justify-center">
           {loading ? (
             <p>Loading...</p>
           ) : error ? (
@@ -117,7 +142,7 @@ export default function ToursList() {
                 key={tour.id}
                 tour={tour}
                 onDelete={() => handleDelete(tour.id)}
-                isBookmarked={tour.isBookmarked ?? false}
+                isBookmarked={bookmarkedIds.has(tour.id)} 
                 onBookmarkToggle={handleBookmarkToggle}
               />
             ))

@@ -29,14 +29,14 @@ export default function TourCard({ tour, onDelete, isBookmarked: isBookmarkedPro
           withCredentials: true,
         });
         setIsBookmarked(false);
-        toast.success('Ekskursija pašalinta iš bookmarkų');
+        toast.success('Procedūra pašalinta iš bookmarkų');
         onBookmarkToggle?.(tour.id, false); // Informuojame tėvinį komponentą
       } else {
         await axios.post(`${API_URL}/bookmarks/${tour.id}`, {}, {
           withCredentials: true,
         });
         setIsBookmarked(true);
-        toast.success('Ekskursija pridėta prie bookmarkų');
+        toast.success('Procedūra pridėta prie bookmarkų');
         onBookmarkToggle?.(tour.id, true); // Informuojame tėvinį komponentą
       }
     } catch (err) {

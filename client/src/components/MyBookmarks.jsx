@@ -54,9 +54,9 @@ export default function MyBookmarks() {
         withCredentials: true,
       });
       setBookmarks((prev) => prev.filter((bookmark) => bookmark.id !== id));
-      toast.success('Ekskursija sėkmingai ištrinta');
+      toast.success('Procedūra sėkmingai ištrinta');
     } catch (err) {
-      const msg = err.response?.data?.message || 'Klaida trinant ekskursiją';
+      const msg = err.response?.data?.message || 'Klaida trinant procedūrą';
       setError(msg);
       toast.error(msg);
     }
